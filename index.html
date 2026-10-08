@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>福岡秋季漫遊之旅</title>
+    <!-- 引入圓潤字體 -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-creamy: #F9F7F2;      /* 米白色 */
+            --gray-blue: #A8B5BF;      /* 灰藍色 */
+            --milk-tea: #D9C5B2;       /* 奶茶色 */
+            --dark-brown: #4A3E37;     /* 深咖色 */
+            --border-color: #E0DDD5;
+            --soft-white: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-creamy);
+            color: var(--dark-brown);
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(168, 181, 191, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(217, 197, 178, 0.1) 0px, transparent 50%);
+            min-height: 100vh;
+        }
+
+        /* 橫幅標題 */
+        .banner {
+            width: 100%;
+            padding: 50px 20px;
+            background: linear-gradient(to right, var(--milk-tea), var(--gray-blue));
+            color: white;
+            text-align: center;
+            letter-spacing: 4px;
+        }
+
+        .banner h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .banner p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* 橫向捲動導航 */
+        .nav-scroll-container {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--bg-creamy);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0 20px;
+            gap: 12px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-wrapper::-webkit-scrollbar { display: none; }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 90px;
+            padding: 10px 15px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-item span:first-child { font-weight: 700; font-size: 0.9rem; }
+        .nav-item span:last-child { font-size: 0.75rem; color: var(--gray-blue); }
+
+        .nav-item.active {
+            background: var(--gray-blue);
+            border-color: var(--gray-blue);
+        }
+
+        .nav-item.active span { color: white; }
+        .nav-item.active span:last-child { opacity: 0.8; }
+
+        /* 備註欄 */
+        .daily-remark {
+            margin: 20px auto;
+            max-width: 325px;
+            padding: 15px 15px;
+            background: var(--soft-white);
+            border-left: 4px solid var(--gray-blue);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            padding: 0 20px 100px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page { display: none; animation: fadeIn 0.4s ease; }
+        .page.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* 行前準備區塊 (僅首頁) */
+        .prep-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+				margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .section-title::before { content: '|'; color: var(--milk-tea); font-weight: bold; }
+
+/* VJW 專屬樣式 */
+.vjw-section {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.vjw-card {
+    background: #F0F4F8; /* 淺藍色背景 */
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+}
+
+.vjw-btn {
+    display: block;
+    text-align: center;
+    background: var(--dark-brown);
+    color: white !important;
+    padding: 12px;
+    text-decoration: none;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.vjw-list {
+    list-style: none;
+    padding: 0;
+}
+
+.vjw-list li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.vjw-list li::before {
+    content: '✓';
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+        /* 行程總覽列表 */
+        .index-list { list-style: none; }
+        .index-list li {
+            padding: 18px;
+            background: white;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        .index-list span { color: var(--gray-blue); margin-right: 12px; font-weight: 700; }
+
+        /* 時間線：點放大、線加粗 */
+        .timeline {
+            position: relative;
+            padding-left: 35px;
+            margin-top: 25px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            width: 5px; /* 加粗線條 */
+            background: var(--milk-tea);
+            border-radius: 10px;
+        }
+
+        .spot {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .spot::before {
+            content: '•';
+            position: absolute;
+            left: -43px; /* 調整放大圓點位置 */
+            top: -14px;
+            color: var(--milk-tea);
+            font-size: 3rem; /* 放大點點 */
+        }
+
+        .time { font-size: 0.9rem; color: var(--gray-blue); font-weight: 700; }
+        .spot-name { font-size: 1.2rem; font-weight: 500; margin: 4px 0; }
+
+        .spot-detail {
+            font-size: 0.85rem;
+            background: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+            color: var(--dark-brown);
+            opacity: 0.9;
+        }
+
+        /* 交通標籤 */
+        .transport-badge {
+            float: right;
+            font-size: 0.75rem;
+            padding: 3px 15px;
+            border: 1.5px solid var(--gray-blue);
+            color: var(--gray-blue);
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* 清除浮動 */
+        .clearfix::after { content: ""; clear: both; display: table; }
+/* 天氣與穿搭建議樣式 */
+        .weather-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        .weather-container {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .weather-icon {
+            font-size: 3rem;
+            background: var(--bg-creamy);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .weather-info {
+            flex: 1;
+        }
+        .temp-range {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 5px;
+        }
+        .outfit-tips {
+            font-size: 0.85rem;
+            color: var(--dark-brown);
+            background: #FFF9F2; /* 極淺橘色背景 */
+            padding: 10px 15px;
+            border-radius: 10px;
+            border-left: 3px solid var(--milk-tea);
+margin-top: 15px;
+        }
+/* 匯率換算器專屬樣式 */
+        .exchange-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        .converter-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .currency-row {
+            display: flex;
+            align-items: center;
+            background: var(--bg-creamy);
+            padding: 12px 15px;
+            border-radius: 12px;
+        }
+        .currency-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            width: 85px;
+            color: var(--dark-brown);
+        }
+        .currency-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 1.2rem;
+            color: var(--dark-brown);
+            text-align: right;
+            outline: none;
+            width: 100%;
+        }
+        .exchange-icon {
+            text-align: center;
+            color: var(--milk-tea);
+            font-size: 1.2rem;
+            margin: -5px 0;
+        }
+        .rate-info {
+            font-size: 0.75rem;
+            color: var(--gray-blue);
+            text-align: center;
+            margin-top: 5px;
+        }
+/* 記帳頁面專屬樣式 */
+.accounting-header { background: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px solid var(--border-color); }
+.total-jpy { font-size: 2rem; color: #b3544d; font-weight: 700; margin: 0; }
+.total-twd { font-size: 1rem; color: var(--gray-blue); margin-bottom: 15px; }
+.cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid #eee; padding-top: 15px; }
+.cat-node { font-size: 0.85rem; display: flex; justify-content: space-between; }
+.btn-add-record { background: #b3544d; color: white; border: none; padding: 12px; width: 100%; border-radius: 12px; font-size: 1rem; cursor: pointer; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(179,84,77,0.2); }
+.acc-date-group { background: white; border-radius: 15px; margin-bottom: 15px; overflow: hidden; border: 1px solid var(--border-color); }
+.acc-date-header { background: #F9F7F2; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; font-weight: 700; font-size: 0.9rem; }
+.acc-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-top: 1px solid #f5f5f5; }
+.acc-info .shop { font-size: 0.95rem; font-weight: 500; }
+.acc-info .sub { font-size: 0.75rem; color: #999; }
+.acc-right { display: flex; align-items: center; gap: 10px; }
+.acc-amount { font-weight: 700; color: var(--dark-brown); }
+.acc-del { background: #eee; color: #999; border: none; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; font-size: 12px; }
+
+/* 彈出視窗樣式 */
+.acc-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; }
+.acc-modal-content { background: var(--bg-creamy); padding: 25px; border-radius: 20px; width: 90%; max-width: 350px; }
+.acc-modal-content label { font-size: 0.8rem; color: #888; display: block; margin-top: 10px; }
+.acc-modal-content input, .acc-modal-content select { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; margin-top: 5px; outline: none; }
+/* 1. 調整新增分類的容器，讓內容物置中 */
+.cat-input-area {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center;     /* 垂直對齊 */
+    gap: 10px;               /* 輸入框與按鈕的間距 */
+    margin-top: 10px;
+}
+
+/* 2. 修改「新增分類」輸入框的長度 */
+#acc-new-cat {
+    width: 200px !important;  /* 設定輸入框長度 */
+    margin-top: 0 !important; /* 移除上方間距以保持水平對齊 */
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+    border-radius: 10px !important;
+}
+
+/* 3. 修改「+」按鈕的長度 */
+.cat-input-area .plus-btn {
+    width: 45px !important;   /* 設定按鈕長度（寬度） */
+    height: 36px !important;  /* 設定高度，建議與輸入框一致 */
+    padding: 0 !important;    /* 清除內邊距 */
+    margin: 0 !important;     /* 清除外邊距 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem !important;
+    border-radius: 10px !important; /* 讓按鈕也圓潤 */
+    background-color: var(--milk-tea); /* 使用你網頁的奶茶色，或是 var(--muji-red) */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+/* --- 以下是針對「新增視窗」按鈕寬度的微調，直接新增即可 --- */
+
+/* 1. 修改彈出視窗裡「日期選擇格子」的長度 */
+#acc-date {
+    width: 285px !important;   /* 強制設定長度 */
+    margin: 5px auto !important; /* 讓它置中 */
+    display: block !important;
+}
+
+/* 修正儲存按鈕：居中且不超出頁面 */
+.acc-modal-content .save-btn {
+    width: 180px !important;    /* 設定你想要的寬度 */
+    max-width: 90%;             /* 防止在小手機上超出螢幕 */
+    display: block !important;   /* 強制轉為區塊元素 */
+    margin: 25px auto !important; /* 左右自動邊距 (居中) */
+    padding: 12px 0 !important;   /* 上下內邊距，左右設為0 */
+    float: none !important;      /* 確保沒有向右浮動 */
+    position: static !important; /* 確保不是絕對定位 */
+    box-sizing: border-box;      /* 確保寬度包含邊框和內邊距 */
+}
+/* 彈出視窗左上角的 X 按鈕 */
+.acc-modal-close-left {
+    position: absolute;
+    top: 15px;
+    left: 15px; /* 定位於左上角 */
+    background: #eee;
+    color: #888;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* 圓潤風 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+    z-index: 10;
+}
+
+.acc-modal-close-left:hover {
+    background: #ddd;
+    color: var(--dark-brown);
+}
+
+/* 確保彈出視窗內容容器有定位參考基準 */
+.acc-modal-content {
+    position: relative; /* 必加：讓左上角按鈕能相對於此框定位 */
+}
+@media print {
+    /* 1. 隱藏導航列、按鈕、提醒欄等不需列印的內容 */
+    .nav-scroll-container, 
+    .save-btn, 
+    .daily-remark,
+    #accModal {
+        display: none !important;
+    }
+
+    /* 2. 強制讓所有內容區塊顯示，並確保每一天都從新的一頁開始 */
+    .page {
+        display: block !important;
+        page-break-after: always; /* 每一天換頁 */
+        margin-top: 0 !important;
+    }
+
+    /* 3. 背景與顏色修正：確保顏色與圖片正確印出 */
+    body {
+        background-color: #ffffff !important;
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact;
+    }
+
+    /* 4. 確保圖片排版正確，不會被切斷 */
+    img {
+        max-width: 100% !important;
+        break-inside: avoid; /* 避免圖片被切成兩半 */
+    }
+
+    /* 5. 確保景點區塊不會在頁面間被強行切斷 */
+    .spot {
+        break-inside: avoid;
+        margin-bottom: 20px;
+    }
+}
+.text-highlight {
+    font-weight: 700;    /* 加粗 */
+    color: #b3544d;      /* 這是你記帳頁面用的紅褐色 */
+}
+/* --- 旅遊日語彈出視窗樣式 (最完整版本) --- */
+.lang-modal { 
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.5); 
+    z-index: 20000; 
+    justify-content: center; 
+    align-items: center; 
+}
+.lang-modal-content { 
+    background: white; 
+    padding: 25px; 
+    border-radius: 20px; 
+    width: 85%; 
+    max-width: 400px; 
+    max-height: 80vh; 
+    overflow-y: auto; 
+    position: relative;
+}
+.lang-item { 
+    border-bottom: 1px solid #eee; 
+    padding: 15px 0; 
+}
+.lang-jp { 
+    font-size: 1.15rem; /* 字體放大 */
+    font-weight: 700; 
+    color: var(--dark-brown); 
+    display: block; 
+}
+.lang-zh { 
+    font-size: 0.95rem; /* 字體舒適 */
+    color: #666; 
+}
+/* 按鈕樣式 */
+.lang-btn {
+    width: 100%;
+    background: var(--milk-tea);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 2rem; /* 按鈕文字大小 */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-top: 5px;
+    margin-bottom: 40px; /* 與底部保持距離 */
+}
+/* 滿版放大視窗 */
+.full-screen-modal { 
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: white; z-index: 20000; flex-direction: column; 
+    justify-content: center; align-items: center; padding: 40px; text-align: center;
+}
+.full-screen-text { font-size: 2.5rem; font-weight: bold; color: var(--dark-brown); }
+.full-screen-zh { font-size: 1.5rem; color: #666; margin-top: 20px; }
+.close-btn { position: absolute; top: 20px; right: 20px; font-size: 2rem; cursor: pointer; }
+/* 可以在你的 CSS 區域加入這個 */
+.spot-name { 
+    font-size: 1.2rem; 
+    font-weight: 500; 
+    margin: 4px 0;
+    flex: 1; /* 讓名稱佔據剩餘空間 */
+    padding-right: 10px;
+}
+/* 資訊按鈕樣式 */
+.info-btn {
+    width: 30px;
+    height: 30px;
+    background: var(--milk-tea);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border: none;
+}
+
+/* 預約資訊卡片樣式 */
+/* 在你的 CSS 中加入或修改這一段 */
+.booking-card {
+    background: #FFF;
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    
+    /* 這裡控制寬度 */
+    width: 100%;         /* 預設是 100%，會填滿彈窗 */
+    box-sizing: border-box; /* 確保 padding 不會把卡片撐破 */
+}
+    </style>
+<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="福岡250之旅" />
+<link rel="manifest" href="site.webmanifest" />
+
+</head>
+<body>
+    <div class="banner">
+        <h1 id="tripTitle">福岡秋季漫遊之旅</h1>
+        <p id="tripDateRange">2026/10/19 — 10/24</p>
+    </div>
+
+    <!-- 橫向導航列 -->
+    <div class="nav-scroll-container">
+        <div class="nav-wrapper" id="navWrapper">
+            <!-- 由 JS 生成按鈕 -->
+        </div>
+    </div>
+
+    <!-- 備註/提醒 -->
+<div id="dailyRemark" class="daily-remark"></div>
+
+    <div class="container" id="mainContainer">
+        <!-- 由 JS 生成頁面 -->
+    </div>
+
+    <script>
+        const tripData = {
+            title: "福岡秋季漫遊之旅",
+            dateRange: "2026/10/19 — 10/24",
+            preTrip: [
+                "確認 Visit Japan Web 入境申請",
+                "確認在上飛機前已將ESIM安裝至手機裡",
+                "準備博多或全國交通IC卡 (SUGOCA/Suica)", 
+                "預約餐廳及確認包車資訊"
+            ],
+            days: [
+                {
+                    name: "首頁", date: "Home",
+							summary: [
+                        "抵達福岡、博多拉麵、超市補貨",
+                        "太宰府天滿宮、櫛田神社、燒肉",
+                        "糸島自然風光、福岡塔",
+                        "門司港懷舊、小倉城、皿倉山夜景",
+                        "麵包超人博物館、天神商圈購物",
+                        "機場最後採購、歸途"
+                    ]
+                },
+                {
+                    name: "Day 1", date: "10/19", transport: "地下鐵/機場巴士",
+                    remark: "🔸抵達飯店後請先確認入住手續。     <br>🔸MaxValu 為 24 小時營業，可採購宵夜。",
+                    schedule: [
+                        { time: "19:20", spot: "福岡國際機場",detail: "<strong>【交通】</strong><br>	搭乘直達巴士(末班車20:55)或地下鐵前往博多車站。<br>(1) 抵達後直接至國際線<span class='text-highlight'>「6、7號巴士」</span>站搭乘直達博多站的巴士。<br>• 車程：約15-25分鐘<br>• 車資：約320日圓(可刷交通卡)<br>(2) 抵達後至<span class='text-highlight'>「5號巴士站」</span>搭乘免費接駁巴士至國內線，轉乘地下鐵經2站即可抵達博多車站。<br>• 車程：約20分鐘<br>• 車資：約260日圓" ,imgUrl: "https://i.postimg.cc/3NmTfsDP/fu-gang-ji-chang.webp"},
+                        { time: "20:40", spot: "博多車站", detail: "<strong>【交通/購物】</strong><br>九州交通樞紐，連接多家百貨。<br>• <span class='text-highlight'>AMU PLAZA博多</span>：位於博多口側，是車站大樓最大的商場。<br>• <span class='text-highlight'>博多阪急百貨</span>：AMU PLAZA旁B1F～8F，地下一樓是伴手禮超市。<br>• <span class='text-highlight'>博多一番街</span>：博多口側 B1樓層，有各式平價日式定食。<br>• <span class='text-highlight'>DEITOS</span>：美食與伴手禮聚集地，一樓是日本各地伴手禮，二樓為「博多麵街道」。<br>• <span class='text-highlight'>AMU EST</span>：位於車站筑紫口側，有服飾、靴下屋、ABC MART，還有3COINS等平價雜貨。" ,imgUrl: "https://i.postimg.cc/6q2s2D0R/bo-duo-che-zhan.webp"},
+                        { time: "20:50", spot: "飯店 N.33 Hakata St. East", detail: "<strong>【住宿】</strong><br>距離博多站東口<span class='text-highlight'>步行3分鐘</span>即可抵達。附近有便利商店及藥妝店。<br>Check-in 放置行李。" ,imgUrl: "https://i.postimg.cc/y6M6hPZN/fan-dian.webp"},
+                        { time: "22:00", spot: "Shin-Shin 拉麵 DEITOS店", detail: "<strong>【美食】</strong><br>人氣拉麵名店，以「純情拉麵」聞名。<br>• 推薦菜單：<span class='text-highlight'><br>(1) 溏心蛋拉麵（煮玉子入りらーめん）<br>(2) 豪華全部配料（全部のせらーめん）<br>(3) 博多Shin-Shin らーめん（豚骨）<br>(4) 炒飯（やきめし）</span><br>• 營業時間：11:00-23:00（L.O.22:30)" ,imgUrl: "https://i.postimg.cc/0Ny95XLZ/la-mian.webp"},
+                        { time: "23:10", spot: "MaxValu Express 博多祇園店", detail: "<strong>【購物】</strong><br>店內提供豐富的生鮮蔬果、宵夜熟食與零食伴手禮。<br>• <span class='text-highlight'>交通便利</span>：距博多車站搭地鐵僅需2分鍾<br>• <span class='text-highlight'>24小時營業</span>（大部分店舖）<br>• <span class='text-highlight'>價格便宜</span>：晚上8點後，熟食開始打折<br>• <span class='text-highlight'>附設藥妝店</span>：附設營業至深夜的 Welcia 藥妝店（提供退稅服務）" ,imgUrl: "https://i.postimg.cc/bvzKHGgD/chao-shi.webp"}
+					]
+                },
+                {
+                    name: "Day 2", date: "10/20", transport: "包車/計程車",
+                    remark: "🔸本日視情況選擇「包車」或「計程車」。<br>🔸博多運河城有種類豐富的美食街及集結多家知名拉麵的拉麵競技場，晚餐請自行解決。",
+                    schedule: [
+                        { time: "09:00", spot: "博多車站", detail: "<strong>【交通/購物】</strong><br>預設乘車點，可到附近買早餐。<br>• 附近推薦美食：<br>(1) <span class='text-highlight'>il FORNO del Mignon 可頌專賣店</span>：通常有三種口味–原味、巧克力和期間限定口味，秤重結帳。<br>(2) <span class='text-highlight'>Dacomecca麵包店</span>：推薦Dacomecca碳烤香腸堡 (ダコメッカドッグ)、明太子法國麵包、開心果生乳包。" ,imgUrl: "https://i.postimg.cc/yYyPsJ16/bo-duo-che-zhan.webp"},
+								{ time: "09:35", spot: "太宰府前表參道", detail: "<strong>【景點/美食/購物】</strong><br>從西鐵「太宰府站」延伸至「太宰府天滿宮」本殿、長約400公尺充滿在地小吃及商店的老街。<br>• 推薦商店：<br>(1) <span class='text-highlight'>福太郎太宰府店</span>：明太子烤飯糰、明太子仙貝<br>(2) <span class='text-highlight'>YAMAYA BASE DAZAIFU</span>：現烤明太子法國麵包、明太子奶油醬<br>(3) <span class='text-highlight'>可愛角色專賣店</span>：米菲兔、角落生物、橡子之森<br>(4) <span class='text-highlight'>手作り箸工房遊膳</span>：日本製筷子專門店，提供現場刻名字的服務",imgUrl: "https://i.postimg.cc/Yq6X0n3p/biao-can-dao.webp" },
+                        { time: "09:40", spot: "梅枝餅 安武 やす武", detail: "<strong>【美食】</strong><br>太宰府表參道必吃的紅豆餡餅。糯米製的外皮中加入北海道十勝紅豆製的紅豆餡，烤熟後外皮微微酥脆，帶著一點焦香味。<span class='text-highlight'><br>P.S.吃的時候要小心，內餡非常燙口。</span><br>• 價格：150日圓/顆。" ,imgUrl: "https://i.postimg.cc/ydSNySQC/mei-zhi-bing.webp"},
+                        { time: "09:50", spot: "星巴克 太宰府天滿宮表參道店", detail: "<strong>【美食/景點】</strong><br>由日本知名建築大師「隈研吾」所操刀設計的著名地標。<br>• 木構設計：運用約 2,000 根長達 1.3 至 4 公尺的細長杉木木條，以斜對角交織方式從門口一路延伸至店內，營造出獨特的流動感與視覺震撼。<br>• 自然融合：概念源自日本傳統木作玩具「Cidori（千鳥）」，在不破壞太宰府歷史街景的前提下，展現出溫潤、和風又時尚的空間。<br>• 在地限定商品：小石原燒馬克杯、福岡城市杯、梅子氣泡飲。<br><span class='text-highlight'>P.S.福吉茶那堤好喝(^^)</span>" ,imgUrl: "https://i.postimg.cc/28t4z4pm/xing-ba-ke.webp"},
+                        { time: "10:10", spot: "太宰府天滿宮", detail: "<strong>【景點】</strong><br>祭祀學問之神菅原道真的神社，境內優美，四季皆有不同的花卉景色。<br>• <span class='text-highlight'>心字池與太鼓橋</span>：跨越象徵過去、現在、未來的三座拱橋，能洗滌身心。<br>• <span class='text-highlight'>御神牛像</span>：境內共有11座，傳說摸摸牛頭可以增長智慧。<br>• <span class='text-highlight'>10 月限定活動：特別受驗合格祈願大祭 </span><br>–活動期間：整個 10 月（10/18為大祭）<br>–活動亮點：因為太宰府供奉的是學問之神，每年 10 月全日本的考生與家長都會湧入參拜。大祭期間，本殿內會掛上特別的燈飾，氣氛莊嚴，並會販售10月份限定的特殊授與品（如限定御守）。" ,imgUrl: "https://i.postimg.cc/SxhmzxzG/tai-zai-fu.webp"},
+                        { time: "11:20", spot: "味の明太子ふくや 太宰府店", detail: "<strong>【美食】</strong><br>70多年的明太子創始老店，販售限定明太子料理及伴手禮。<br>• 推薦餐點：<br>(1) <span class='text-highlight'>明太子茶泡飯兩層塔</span>：太宰府店限定，上層有三種明太子，下層則是山藥薯泥、明太子加上魷魚調味出的「魷魚明醬」，以及各種配料沾醬(餐點內容不定期變更)，售價1700日圓。<br>(2) <span class='text-highlight'>外帶明太子茶泡飯</span>：有冷熱版本，還有明太子鮭魚口味，售價500日圓。" ,imgUrl: "https://i.postimg.cc/SxDjS4Yb/cha-pao-fan.webp"},
+								{ time: "12:20", spot: "BEAMS JAPAN 太宰府店", detail: "<strong>【購物】</strong><br>2025年新開幕BEAMS JAPAN第10號店，推出多款結合當地文化的商品。<br>(1) <span class='text-highlight'>限定商品</span>：以象徵「紅梅」的色調作為主視覺，推出托特包、午餐袋與相關小物。<br>(2) <span class='text-highlight'>通行手形</span>：印有梅花圖案、太宰府字樣與 BEAMS JAPAN Logo 的木牌，特別選用了九州產的檜木製作而成。<br>(3) <span class='text-highlight'>小石原燒商品</span>：福岡的小石原燒被指定為國家傳統工藝品，這次店裡也有販賣太宰府店限定的小石原燒器皿。" ,imgUrl: "https://i.postimg.cc/W3drZzcV/EBEC69F7-C563-41C4-930E-3CC99C71B888.webp"},
+								{ time: "14:00", spot: "明治公園", detail: "<strong>【景點】</strong><br>於2026年8月7日盛大開幕，是一座由知名建築師藤本壯介設計監修的立體都會綠洲。<br>• <span class='text-highlight'>五大庭園</span>：包含街道庭園、原野庭園、緣之庭、結之庭與天空庭園，結合了約1,400平方公尺的綠化植栽。<br>• <span class='text-highlight'>公共藝術</span>：園內展示了福岡出身藝術家KYNE的首件公共藝術作品《UNTITLED》。<br>• <span class='text-highlight'>複合式店鋪</span>：包括麵包餐酒館、人氣披薩店、啤酒吧，還有桑拿和SPA。" ,imgUrl: "https://i.postimg.cc/59ZWvzZs/6AB72CE0-DBA3-46E7-B7C0-C269404CE713.webp"},
+                        { time: "15:00", spot: "櫛田神社", detail: "<strong>【景點】</strong><br>位於日本福岡市博多區、擁有超過1,200年歷史的博多總鎮守（守護神），在地人暱稱為「櫛田さん」。<br>• <span class='text-highlight'>三大主祭神</span>：主殿供奉大幡主命（求長壽與生意興隆）、須佐之男命（除厄與家庭平安）和天照皇大神（開運招福）。<br>• <span class='text-highlight'>博多祇園山笠</span>：每年7月舉辦被列為聯合國非物質文化遺產的知名熱血祭典，境內常態展示高達13公尺的巨大「飾山笠」。<br>• <span class='text-highlight'>境內必看</span>：超過千年樹齡的「櫛田銀杏」、祈求夫妻圓滿的「夫婦銀杏」、力士奉納的「力石」，以及人氣拍照點「注連懸稻荷神社」。" ,imgUrl: "https://i.postimg.cc/qv50DvC8/zhi-tian-shen-she.webp"},
+                        { time: "16:15", spot: "博多運河城 Canal City", detail: "<strong>【購物/美食】</strong><br>能一次享受購物與美食，還有電影、戲劇欣賞、水舞秀等娛樂活動的大型購物中心。<br>• 推薦必逛：<br>(1) <span class='text-highlight'>動漫朝聖地</span>：設有全日本規模最大的官方鋼彈旗艦店 ，以及販售各類動漫模型的BANDAI NAMCO、集結多樣動漫周邊的 JUMP SHOP和迪士尼商店。<br>(2) <span class='text-highlight'>大型旗艦店</span>：包含西日本最大規模的運動用品旗艦店 Alpen FUKUOKA，以及無印良品大型店與多家潮流服飾品牌。<br>(3) <span class='text-highlight'>水舞光影秀</span>：每日定時於太陽廣場舉行音樂水舞表演，夜間更會上演結合 2,500 吋水幕與 3D 光雕投影的震撼全景。<br>• 推薦必吃：<br>(1) <span class='text-highlight'>拉麵競技場</span>：位於中央步道5樓，集結多家中日各地人氣拉麵店。<br>(2) <span class='text-highlight'>UMAYA(うまや)</span>：位在中央步道4樓，以輕輕炙燒的牛舌而聞名。<br>(3) <span class='text-highlight'>TAKAO(たかお)</span>：位在中央步道4樓，擁有特製的濃郁醬汁的現炸天婦羅專賣店。" ,imgUrl: "https://i.postimg.cc/pT82FMr8/yun-he-cheng.webp"}
+					]        
+                   
+                },
+                {
+                    name: "Day 3", date: "10/21", transport: "遊覽車跟團",
+                    remark: "🔸會暈車記得吃暈車藥。<br>🔸糸島風大，海邊拍照請注意保暖。<br>🔸晚餐已預約19:30燒肉。",
+                    schedule: [
+                        { time: "09:00", spot: "LAWSON（福岡東方飯店店）", detail: "<strong>【跟團集合點】</strong><br>博多車站築紫口步行2分鐘，9點準時出發。<br># 需提早10分鐘到達。<br>• 導遊會舉旗： <span class='text-highlight'>「S Travel」</span>。" ,imgUrl: "https://i.postimg.cc/SR1DbRF3/luo-sen.webp"},
+								{ time: "09:50", spot: "白糸瀑布", detail: "<strong>【景點】</strong><br>處海拔約900公尺、高低落差達24公尺的知名自然名勝。<br>•  <span class='text-highlight'>四季茶屋</span>：提供豐富的定食套餐，可以邊用餐邊欣賞瀑布。<br>•  <span class='text-highlight'>森林浴與賞景</span>：氣溫比市區涼爽，非常適合散步吸收負離子。雖然11月中旬才迎來全盛紅葉，但10月下旬起也能逐漸感受到秋意變化。<br>🕐 <strong>25分鐘</strong>" ,imgUrl: "https://i.postimg.cc/7LwrbJ7Z/pu-bu.webp"},
+								{ time: "10:25", spot: "Forest Cafe Midori no Oto", detail: "<strong>【景點/美食】</strong><br>「森のカフェ緑の詩」座落於高聳杉木林與白糸之森內，可以欣賞山景和森林景觀的咖啡廳。<br>• 點餐流程：<br>(1) 在入口受付表寫名字（簡單英文即可）<br>(2) 等待唱名及號碼牌<br>(3) 叫號點餐<br><span class='text-highlight'>– 每人低消一杯飲料<br>– 選擇座位「森(森林)」或「畑(山景)」</span><br>(4) 點餐後等5-10分鍾(可先取椅子選位置)<br>(5) 回櫃檯取餐<br>🕐 <strong>1小時15分鐘</strong>" ,imgUrl: "https://i.postimg.cc/dVwKVNzp/sen-lin-ka-fei.webp"},
+								{ time: "12:20", spot: "午餐", detail: "<strong>【美食】</strong><br>行程會視情況前往「アクアマリン糸島」或「浜燒き白浜家」。<br>• <span class='text-highlight'>アクアマリン糸島</span>：季節活動轉型中，該店的烤牡蠣小屋（冬春限定）通常在11月初正式開張。10月中下旬，可能以海景 BBQ 或基礎海鮮燒烤為主。<br>• <span class='text-highlight'>浜燒き白浜家</span>：主打現撈等級的新鮮海產，從牡蠣、扇貝、鮑魚到活蝦都能自己動手浜燒，搭配大片落地窗外的玄界灘海景。<br>• 價格：約 3000-7000日圓<br>🕐 <strong>1小時45分鐘</strong>",imgUrl: "https://i.postimg.cc/NFxv61X4/hai-xian.webp" },	
+							   { time: "14:15", spot: "Totoro forest in Keyanooto Park", detail: "<strong>【景點】</strong><br>「芥屋大門公園」內的糸島龍貓森林步道，是一處由海邊灌木叢交織而成的翠綠森林隧道。<br>• <span class='text-highlight'>芥屋の大門</span>：是玄海國定公園中，一個日本最大玄武岩洞，每年3月中旬到11月是觀光旺季，可以搭乘觀光遊覽船近距離欣賞玄武岩洞。<br>• <span class='text-highlight'>龍貓之森</span>：一座由海邊灌木叢圍繞而成的森林步道，因為入口處被樹林遮蔽住，地點隱密像極了宮崎駿電影「龍貓」裡會出現的場景，因而得名。<br>• <span class='text-highlight'>展望台</span>：從步道入口步行約10分鐘即可抵達頂端的小型觀景台，能俯瞰玄界灘的壯闊海景。<br>🕐 <strong>20分鐘</strong>",imgUrl: "https://i.postimg.cc/GpS0zL9F/long-mao-zhi-sen.webp" },
+							 { time: "15:00", spot: "またいちの塩工坊Tottan", detail: "<strong>【景點/美食】</strong><br>視行程情況前往「又またいちの塩製鹽工房」或「糸島農場舍UOVO」。<br>• <span class='text-highlight'>またいちの塩</span>：以絕美海景與招牌「花鹽布丁」聞名的超人氣海邊製鹽工廠。<br>• <span class='text-highlight'>農舍UOVO</span>：以自家農場新鮮「天上卵」雞蛋聞名的超人氣純白景觀咖啡廳。<br>🕐 <strong>35分鐘</strong>" ,imgUrl: "https://i.postimg.cc/63907nBz/yan-bu-ding.webp"},
+							   { time: "16:05", spot: "二見ヶ浦・夫婦岩", detail: "<strong>【景點】</strong><br>福岡縣糸島市最具代表性的海景地標，以海中的純白大鳥居與相依的夫婦岩聞名。<br>• <span class='text-highlight'>白色海上鳥居</span>：矗立在蔚藍海面上，與一般日本常見的紅色鳥居不同，若遇到退潮，可走至鳥居下方踩水並合影。<br>• <span class='text-highlight'>夫婦岩與注連繩</span>：兩塊巨岩立在離岸約150公尺的海面上，中間繫著巨大的注連繩，象徵結緣與婚姻圓滿。<br>• <span class='text-highlight'>夕陽百選</span>：10月中下旬，日落時間約在17:20-17:40之間，可看見金黃色海景。<br>🕐 <strong>20分鐘</strong>" ,imgUrl: "https://i.postimg.cc/bv6PM0VQ/fu-qi-yan.webp"},
+							   { time: "16:25", spot: "Angel's wing photo spot", detail: "<strong>【景點】</strong><br>位於人氣度假勝地糸島市的海岸複合設施「PALM BEACH THE GARDENS」外牆上，牆上繪有一對色彩柔和夢幻的<span class='text-highlight'>彩色天使翅膀</span>，只要站在翅膀中央拍照，就能拍出彷彿背s長出翅膀的唯美畫面。<br>🕐 <strong>20分鐘</strong>" ,imgUrl: "https://i.postimg.cc/ryDVBbkx/tian-shi-zhi-yi.webp"},
+							   { time: "17:00", spot: "Palm Tree Swing 椰子樹鞦韆", detail: "<strong>【景點】</strong><br>IG 超火爆拍照點，可以欣賞糸島海岸的絕美景色，海灘上也有需多有趣造景。<br>• <span class='text-highlight'>海景鞦韆</span>：沙灘上有一整排懸掛在椰子樹上的各式鞦韆，包含雙人、心型與吊床造型，充滿南國度假風情。<br>• <span class='text-highlight'>豐富設施</span>：除了鞦韆，這裡還設有高空滑索、哆啦A夢的「糸島任意門」以及鯊魚裝置藝術。<br>• <span class='text-highlight'>全區免費</span>：景點與多數設施皆免門票、免費自由使用。<br>🕐 <strong>30分鐘</strong>",imgUrl: "https://i.postimg.cc/yNMQWw2Q/ye-zi-qiu-qian.webp"},
+								{ time: "18:30", spot: "回程", detail: "<strong>【跟團下車點】</strong><br>返回原集合點—— LAWSON（福岡東方飯店店，博多站築紫口步行2分鐘），準備吃晚餐。" ,imgUrl: "https://i.postimg.cc/SR1DbRF3/luo-sen.webp"},
+                  		{ time: "19:30", spot: "One Karubi Premium 中洲", detail: "<strong>【美食】</strong><br>高評價的日式國產牛燒肉吃到飽餐廳，環境舒適且鄰近中洲川端站。<br>• 推薦餐點：<br>(1)  <span class='text-highlight'>牛舌與國產牛吃到飽方案</span>：5,880日圓/人，可享用鹽味牛舌、厚切上等里肌牛排、北海道產牛赤身、冷麵及精緻甜點。<br>🔺<strong>晚餐時段每人都需點吃到飽方案</strong>🔺<br>(2)  <span class='text-highlight'>生牛肉風味韃靼</span>：調味偏甜的生牛肉絲拌上生蛋黃，是點單率極高的人氣開胃菜。<br>(3) <span class='text-highlight'>盛岡冷麵</span>：肉吃多了容易膩，點一碗口感Q彈、湯頭酸甜清爽的冷麵，是解膩的絕佳搭配。<br>(4)  <span class='text-highlight'>季節限定聖代 / 焦糖布丁</span>：餐廳每季都會推出不同主題（如草莓、抹茶或巧克力）的百匯聖代與布丁。（吃到飽方案每人限點一份）<br>• 價格：約5000-7000日圓<br>• 營業時間：17:00-23:00" ,imgUrl: "https://i.postimg.cc/2jdx092S/shao-rou.webp"}      
+                    ]
+                },
+                {
+                    name: "Day 4", date: "10/22", transport: "遊覽車跟團",
+                    remark: "🔸皿倉山上的氣溫較低需帶外套。<br>🔸晚餐超市自理。",
+                    schedule: [
+								{ time: "10:00", spot: "LAWSON（福岡東方飯店店）", detail: "<strong>【跟團集合點】</strong><br>博多車站築紫口步行2分鐘，11點出發。<br># 需提早10分鐘到達。<br>• 導遊會舉旗： <span class='text-highlight'>「GOGODAY」</span>。" ,imgUrl: "https://i.postimg.cc/SR1DbRF3/luo-sen.webp"},
+                        { time: "11:20", spot: "門司港", detail: "<strong>【景點】</strong><br>日本福岡縣歷史悠久的港口城市，有許多物館和文物古蹟，可以深入瞭解門司港的歷史和文化。<br>•  <span class='text-highlight'>九州鐵道紀念館</span>：一座以鐵道為主題的博物館，館內大量保存和展示九州地區鐵道發展的歷史與文化。<br>門票：300日圓/人<br>•  <span class='text-highlight'>舊門司三井俱樂部</span>：建於 1921 年，最初是三井物產門司支店的高級社交與住宿招待所，現已被日本政府列為國家重要文化財。<br>門票：100日圓/人<br>•  <span class='text-highlight'>北九州門司港站</span>：是全日本唯二被指定為國家重要文化財的現役車站建築，盡頭式的木造月台保留了復古的木製車站牌。<br>•  <span class='text-highlight'>唐戶市場</span>：日本極具代表性的地方批發魚市場，更是熱愛海鮮的饕客來到門司港與下關地區必訪的朝聖聖地。<br>船票：來回800日圓/人<br>•  <span class='text-highlight'>李鴻章道</span>：日本極少數以華人政治人物命名的街道，直接見證了改變臺灣命運的《馬關條約》談判過程。<br>🕐 <strong>2小時10分鐘</strong>" ,imgUrl: "https://i.postimg.cc/PrFmt0L6/men-si-gang.webp"},
+                        { time: "14:00", spot: "小倉城", detail: "<strong>【景點】</strong><br>有獨特「唐造」天守閣與美麗護城河的知名歷史名城。<br>• <span class='text-highlight'>唐造天守閣</span>：5樓比4樓更大的獨特建築結構，內外均極具特色，5樓展望區設有天守閣內少見的咖啡廳與酒吧，也是日本少數長期提供夜間點燈的城堡。<br>• <span class='text-highlight'>小倉城庭園</span>：緊鄰小倉城東側，是一座完美再現江戶時代大名別邸(大名屋敷)與武家書院風格的復元型日式庭園。<br>• <span class='text-highlight'>松本清張紀念館</span>：小倉城西南側的勝山公園內，是一座專門紀念日本「社會派推理小說」鼻祖松本清張的市立博物館。<br>門票：小倉城、小倉城庭園、松本清張紀念館通票700日圓/人<br>🕐 <strong>50分鐘</strong>" ,imgUrl: "https://i.postimg.cc/28jwj40b/xiao-cang-cheng.webp"},
+								{ time: "15:20", spot: "THE OUTLETS 北九州", detail: "<strong>【購物】</strong><br>於2022年全新開幕的西日本最大級暢貨中心之一，它與隔壁的「AEON MALL 永旺夢樂城八幡東」設有聯絡橋直接相連，兩區合併共擁有超過 300 家店舖。<br>🕐 <strong>2小時20分鐘</strong>" ,imgUrl: "https://i.postimg.cc/26hFKPSF/Lalaport.webp"},
+                        { time: "18:00", spot: "皿倉山展望台", detail: "<strong>【景點】</strong><br>享有「新日本三大夜景」與「百億美元夜景」美譽的著名觀景勝地。<br>• 登山交通(兩段式)：<br>第一段：從山麓站搭乘<span class='text-highlight'>大型登山纜車</span>至山上站(約6分鐘，西日本最長路線)。<br>第二段：從山上站轉乘<span class='text-highlight'>斜坡車(小型單軌車)</span>抵達山頂的展望台站(約3分鐘)。<br>• 票價：來回約 1230日圓/人<br>🕐 <strong>50分鐘</strong>" ,imgUrl: "https://i.postimg.cc/fLV2bMHv/min-cang-shan.webp"},
+								{ time: "19:45", spot: "回程", detail: "<strong>【跟團下車點】</strong><br>返回原集合點—— LAWSON（福岡東方飯店店，博多站築紫口步行2分鐘），準備吃宵夜。" ,imgUrl: "https://i.postimg.cc/SR1DbRF3/luo-sen.webp"},
+								{ time: "20:00", spot: "かわ屋", detail: "<strong>【美食】</strong><br>以博多名物「烤雞皮」為主的串燒店，香酥且富有鮮味的雞皮非常適合搭配酒類。<br>• 推薦必吃：<br>(1)とり皮(雞皮串)<span class='text-highlight'> Hot</span><br>(2) ささみのしぎ焼き(芥末燒雞柳)<span class='text-highlight'> Hot</span><br>(3) 豚バラ(烤豬五花)<br>(4) 砂ずり(烤雞胗) / ハツ(烤雞心)<br>(5) にゅうめん(雞肉湯麵)<br>• 價格：2000-3000日圓" ,imgUrl: "https://i.postimg.cc/bJx1Fd0C/ji-pi.webp"}					
+                    ]
+                },
+                {
+                    name: "Day 5", date: "10/23", transport: "地下鐵/步行",
+                    remark: "🔸天神商圈是購物重地，建議輕便出裝。<br>🔸午餐已預約水炊鍋。<br>🔸晚餐釜飯需現場排隊。",
+                    schedule: [
+                        { time: "09:30", spot: "FUK Coffee", detail: "<strong>【美食】</strong><br>以旅行為主題的特色咖啡店。<br>• 推薦必吃：<br>(1) <span class='text-highlight'>昭和布丁(FUKプリン)</span>：口感紮實，搭配微苦甜的深色焦糖醬，價格550日圓，加上一球香草冰淇淋只要多120日圓。<br>(2) <span class='text-highlight'>福吉茶拿鐵</span>：咖啡與牛奶比例平衡、風味滑順，外帶或內用杯身上常有店員手繪的可愛飛機或動物插圖。(翁承郁推薦👍)"  ,imgUrl: "https://i.postimg.cc/2jbksvxW/FUK.webp"},
+					{ time:"10:00", spot: "The Full Full Hakata", detail: "<strong>【美食】</strong><br>是福岡超人氣的排隊名店，以明太子法式麵包聞名，剛出爐香氣逼人。<br>• 人氣推薦：<br>(1) 博多名物明太子法國麵包<span class='text-highlight'> Hot</span><br>(2) 榛果風味酥脆菠蘿麵包<br>(3) 八種蔬菜香料咖哩麵包<br>• 預約方式：加入官方 LINE 進行線上預訂<br>• 開放時間：系統提供 <span class='text-highlight'>14天內</span>的日期預訂(台灣時間前一天23:00開始)。"  ,imgUrl: "https://i.postimg.cc/tJsFPz8j/Full.webp"},
+                        { time: "10:30", spot: "麵包超人兒童博物館", detail: "<strong>【景點/購物】</strong><br>位於高島屋的5、6樓，是一座結合購物中心的博物館。<br>• <span class='text-highlight'>果醬爺爺的麵包工廠</span>：販售現烤麵包，例如麵包超人(紅豆沙餡)、細菌人(巧克力焦糖卡士達)。<br>• <span class='text-highlight'>主題商店</span>：館內集結了17 間主題商店、福利用品店與特色餐廳<br>• <span class='text-highlight'>限定商品</span>：福岡限定飛行船系列、限定爆米花桶、客製化刺繡吊牌等。<br>• 門票約2000-2200日圓/人"  ,imgUrl: "https://i.postimg.cc/KzNMCWSd/mian-bao-chao-ren.webp"},
+								{ time: "12:30", spot: "水炊きとり田", detail: "<strong>【美食】</strong><br>這裡提供以九州產全雞，僅用水煮煉六小時而成的滋味深厚極上湯底水炊鍋。<br>• 套餐選項：<br>(1) 博多 鳥田滿喫套餐(8800日圓/人)<span class='text-highlight'> Hot</span><br>(2) 天神 基本套餐(7700日圓/人)<br>(3) 中洲 九州風味豪華套餐(11000日圓/人)<br>• 價格：6000-10000日圓" ,imgUrl: "https://i.postimg.cc/1t2bMCHd/shui-chui-guo.webp"},                       
+                        { time: "14:00", spot: "天神地下街", detail: "<strong>【購物】</strong><br>全九州最大地下街，集合服飾、藥妝、精品，連接著數家百貨公司，包括Mina天神、Parco、大丸百貨等。"  ,imgUrl: "https://i.postimg.cc/fWdL3Fgr/de-xia-jie.webp"},
+                        { time: "16:00", spot: "天神西通り", detail: "<strong>【購物】</strong><br>福岡市中央區一條熱鬧的繁華街道，匯聚各大潮流品牌、藥妝店與美食餐廳包括HUMAN MADE、mont-bell、graniph等。"  ,imgUrl: "https://i.postimg.cc/6pf48STV/tian-shen-xi-tong.webp"},
+								{ time: "19:00", spot: "黑毛和牛 博多牛まぶし 武蔵", detail: "<strong>【美食】</strong><br>天神西12b出口步行2分鐘，即到達日本福岡超人氣的排隊名店，主打招牌的黑毛和牛三吃丼飯。<br>• 套餐選項：<br>(1) 和牛瘦肉蓋飯(1650日圓/人)<br>(2) 上等和牛蓋飯(2200日圓/人)<span class='text-highlight'> Hot</span><br>(3) 極上和牛蓋飯(2980日圓/人)<br>(4) 生肉鮭魚卵蓋飯(1980日圓/人)<br>• 價格：約1500-2700日圓" ,imgUrl: "https://i.postimg.cc/VN8mMVy6/shao-rou.webp"},
+								{ time: "20:00", spot: "唐吉訶德/BIC CAMERA", detail: "<strong>【消食】</strong><br>唐吉訶德 天神本店：步行3分鐘<br>BIC CAMERA 天神1號館：步行1分鐘。"  ,imgUrl: "https://i.postimg.cc/63PPV82X/Donki.webp"}
+                    ]
+                },
+                {
+                    name: "Day 6", date: "10/24", transport: "巴士/地下鐵",
+                    remark: "🔸退房前請仔細檢查行李。<br>🔸福岡機場國際線新增的免稅店位於航廈3樓(過安檢後)",
+                    schedule: [
+                        { time: "10:00", spot: "飯店退房", detail: "<strong>【自由活動】</strong><br>預計10點退房，然後於博多車站寄放行李後，開始自由活動。" ,imgUrl: "https://i.postimg.cc/sf7XB7ZR/fan-dian.webp"},
+                        { time: "10:30", spot: "博多車站", detail: "<strong>【購物/美食】</strong><br>博多車站周遭有許多大型百貨，車站裡也有豐富的伴手禮可供挑選。<br>• <span class='text-highlight'>AMU PLAZA博多</span>：位於博多口側，是車站大樓最大的商場。<br>• <span class='text-highlight'>博多阪急百貨</span>：AMU PLAZA旁B1F～8F，地下一樓是伴手禮超市。<br>• <span class='text-highlight'>DEITOS</span>：美食與伴手禮聚集地，一樓是日本各地伴手禮，二樓為「博多麵街道」。<br>• <span class='text-highlight'>AMU EST</span>：位於車站筑紫口側，有服飾、靴下屋、ABC MART，還有3COINS等平價雜貨。<br>• <span class='text-highlight'>Yodobashi</span>：位於車站東5出口，大型連鎖3C電器量販店。"  ,imgUrl: "https://i.postimg.cc/pLWcQMvm/bo-duo.webp"},
+								{ time: "14:00", spot: "福岡機場國內線", detail: "<strong>【伴手禮/免稅店】</strong><br>地下鐵「空港線」可直接抵達。<br>• 1樓 大廳：便利商店、藥妝店與輕食<br>• 2樓 伴手禮商店街：非免稅區，含8%稅<br>• 3樓 美食餐廳街：含知名的拉麵滑走道(Ramen Runway)" ,imgUrl: "https://i.postimg.cc/DwfJ7BrP/IMG-2324.webp"},
+                        { time: "16:50", spot: "福岡機場國際線", detail: "<strong>【伴手禮/免稅店】</strong><br>• <span class='text-highlight'>1樓 入境大廳</span>：設有 LAWSON 、Tully's Coffee、扭蛋特區及期間限定店等。<br>• <span class='text-highlight'>3樓 出境大廳與全新商業區</span>：步行通過型免稅店包含 Bic Camera 進駐、各地名產商店、Onitsuka Tiger、Graniph、Nintendo等。" ,imgUrl: "https://i.postimg.cc/zDTx9GXD/ji-chang.webp"},
+                        { time: "20:20-22:10", spot: "登機回家", detail: "<strong>【睡覺】</strong><br>結束 6 天 5 夜豐富行程，平安回家。"  ,imgUrl: "https://i.postimg.cc/mDRdQKyV/shui.webp"}
+]
+                },
+{
+    name: "記帳", date: "Money",
+    remark: "錢錢沒有消失，只是變成自己喜歡的樣子～～(OvO)",
+    schedule: [] // 記帳分頁不需要原本的行程清單，我們會另外生成
+}
+                    
+                
+            ]
+        };
+
+        function initApp() {
+            const navWrapper = document.getElementById('navWrapper');
+            const mainContainer = document.getElementById('mainContainer');
+document.getElementById('dailyRemark').style.display = 'none';
+            tripData.days.forEach((day, index) => {
+                // 1. 生成導航按鈕
+                const navItem = document.createElement('div');
+                navItem.className = `nav-item ${index === 0 ? 'active' : ''}`;
+                navItem.innerHTML = `<span>${day.name}</span><span>${day.date}</span>`;
+                navItem.onclick = () => showPage(index);
+                navWrapper.appendChild(navItem);
+
+                // 2. 生成內容頁
+                const page = document.createElement('div');
+                page.id = `page-${index}`;
+                page.className = `page ${index === 0 ? 'active' : ''}`;
+
+                if (index === 0) {
+                    // 首頁內容（調整後順序：行前準備 -> 天氣 -> 匯率 -> VJW）
+                    page.innerHTML = `
+                       
+<div class="prep-section">
+    <div class="section-title" style="display: flex; justify-content: space-between; align-items: center; text-align: left; width: 100%;">
+        <span style="flex: 1; text-align: left;">行前準備</span>
+        <button class="info-btn" onclick="openBookingModal()" style="width: 30px; height: 30px; background: #D9C5B2; color: white; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">!</button>
+    </div>
+    <ul style="list-style:none; font-size:0.85rem; padding-left:5px;">
+        ${tripData.preTrip.map(item => `<li style="margin-bottom:8px;">— ${item}</li>`).join('')}
+    </ul>
+</div>
+<!-- 2. 即時匯率換算 -->
+                        <div class="exchange-section">
+                            <div class="section-title">即時匯率換算</div>
+                            <div class="converter-container">
+                                <div class="currency-row">
+                                    <span class="currency-label">台幣 TWD</span>
+                                    <input type="number" id="twdInput" class="currency-input" placeholder="0">
+                                </div>
+                                <div class="exchange-icon">⇅</div>
+                                <div class="currency-row">
+                                    <span class="currency-label">日幣 JPY</span>
+                                    <input type="number" id="jpyInput" class="currency-input" placeholder="0">
+                                </div>
+                                <div class="rate-info" id="rateDetail">正在獲取最新匯率...</div>
+                            </div>
+								</div>
+                        <!-- 1. 天氣與穿搭建議 -->
+                        <div class="weather-section">
+                            <div class="section-title">福岡 10 月天氣 & 穿搭</div>
+                            <div class="weather-container">
+                                <div class="weather-icon">🍂</div>
+                                <div class="weather-info">
+                                    <div class="temp-range">15°C — 23°C</div>
+                                    <div style="font-size:0.85rem; margin-bottom:10px;">秋高氣爽，早晚溫差較大。</div>
+                                </div>
+                            </div>
+                            <div class="outfit-tips">
+                                <strong>💡 穿搭建議：</strong><br>
+                                建議採「洋蔥式穿法」。白天舒適可穿長袖 T-shirt 或襯衫；早晚偏涼，請隨身攜帶薄外套或風衣。若前往山區（皿倉山）建議帶略厚的外套。
+                            </div>
+                        </div>
+                        </div>
+
+                        <!-- 3. Visit Japan Web 區塊 (已下移至此) -->
+                        <div class="vjw-section">
+                            <div class="section-title">Visit Japan Web 入境手續</div>
+                            <div class="vjw-card">
+                                <p style="font-weight:700; margin-bottom:10px; color:#2c3e50;">出發前必做！</p>
+                                <ul class="vjw-list">
+                                    <li>填寫「入境審查」及「海關申報」</li>
+                                    <li>完成後會獲得 QR Code</li>
+                                    <li>建議「截圖保存」以防機場網路不穩</li>
+                                </ul>
+                                <a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank" class="vjw-btn">
+                                    官方網站登入 ➔
+                                </a>
+                                <p style="font-size:0.75rem; color:#666; text-align:center; margin-top:5px;">
+                                    *目前檢疫手續已簡化，僅需 QR Code 即可。
+                                </p>
+                            </div>
+</div>
+<button class="lang-btn" onclick="document.getElementById('langModal').style.display='flex'">
+    🇯🇵 旅遊實用日語
+</button>
+								</div>
+                    `;
+                    // 執行匯率運算邏輯
+                    setTimeout(setupExchangeRate, 100);
+                } else if (day.name === "記帳") {
+    page.innerHTML = `
+        <div class="accounting-header">
+            <div id="acc-total-jpy" class="total-jpy">¥ 0</div>
+            <div id="acc-total-twd" class="total-twd">約 NT$ 0</div>
+            <div id="acc-category-grid" class="cat-grid"></div>
+        </div>
+        <button class="btn-add-record" onclick="openAccModal()">錢錢去哪了勒～💸</button>
+        <div id="acc-list"></div>
+    `;
+    setTimeout(updateAccUI, 100);
+			} else {
+                    // 每日詳細行程內容
+                    // 修改後的行程生成迴圈部分
+page.innerHTML = `
+    <div class="clearfix">
+        <div class="transport-badge">${day.transport}</div>
+    </div>
+    <div class="timeline">
+        ${day.schedule.map((s, sIdx) => `
+            <div class="spot">
+                <div class="time">${s.time}</div>
+			<div class="spot-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="spot-name">${s.spot}</div>
+    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.spot)}" 
+       target="_blank" 
+       style="font-size: 0.7rem; background: var(--milk-tea); color: white; padding: 4px 8px; border-radius: 6px; text-decoration: none;">
+       導航
+    </a>
+</div>
+                ${s.detail ? `<div class="spot-detail">${s.detail}</div>` : ''}
+                
+                ${s.imgUrl ? `
+                    <div style="margin-top: 10px; border-radius: 12px; overflow: hidden;">
+                        <img src="${s.imgUrl}" style="width: 100%; height: auto; display: block;" alt="行程圖片">
+                    </div>
+                ` : ''}
+            </div>
+        `).join('')}
+    </div>
+`;
+                }
+                mainContainer.appendChild(page);
+            });
+        }
+
+        function showPage(index) {
+            // 切換頁面顯示
+            const pages = document.querySelectorAll('.page');
+            pages.forEach((p, i) => {
+                p.classList.toggle('active', i === index);
+            });
+
+            // 切換導航鈕樣式
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+            const remarkEl = document.getElementById('dailyRemark');
+    if (index === 0) {
+        // 如果是首頁，隱藏 Remark 區塊
+        remarkEl.style.display = 'none';
+    } else {
+        // 如果是其他天，顯示並更新內容
+        remarkEl.style.display = 'block';
+        remarkEl.innerHTML = tripData.days[index].remark;
+    }
+            // 導航列捲動置中
+            const wrapper = document.getElementById('navWrapper');
+            const activeItem = navItems[index];
+            const scrollTarget = activeItem.offsetLeft - (wrapper.offsetWidth / 2) + (activeItem.offsetWidth / 2);
+            wrapper.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+
+            // 視窗捲動到頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function printTrip() {
+    // 1. 取得主容器內容
+    const mainContainer = document.getElementById('mainContainer');
+    
+    // 2. 創建一個隱藏的 iframe，用來處理列印任務，這能避免污染目前的 App 畫面
+    const printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.right = '0';
+    printFrame.style.bottom = '0';
+    printFrame.style.width = '0';
+    printFrame.style.height = '0';
+    printFrame.style.border = '0';
+    document.body.appendChild(printFrame);
+
+    const doc = printFrame.contentWindow.document;
+
+    // 3. 將網頁的樣式與內容寫入 iframe
+    doc.open();
+    doc.write(`
+        <html>
+            <head>
+                <title>福岡旅遊行程</title>
+                <style>
+                    body { font-family: 'M PLUS Rounded 1c', sans-serif; padding: 20px; }
+                    .page { display: block !important; page-break-after: always; }
+                    .spot { break-inside: avoid; margin-bottom: 20px; }
+                    img { max-width: 100% !important; }
+                    h1 { text-align: center; }
+                    ${document.querySelector('style').innerHTML} /* 複製原本的樣式 */
+                </style>
+            </head>
+            <body>
+                ${mainContainer.innerHTML}
+            </body>
+        </html>
+    `);
+    doc.close();
+
+    // 4. 等待圖片載入後執行列印
+    printFrame.contentWindow.focus();
+    printFrame.contentWindow.print();
+
+    // 5. 列印結束後移除 iframe
+    setTimeout(() => {
+        document.body.removeChild(printFrame);
+    }, 1000);
+}
+// 匯率換算邏輯函數
+        let currentRate = 4.65; // 預設匯率
+        async function setupExchangeRate() {
+            const twdInput = document.getElementById('twdInput');
+            const jpyInput = document.getElementById('jpyInput');
+            const rateDetail = document.getElementById('rateDetail');
+
+            if (!twdInput || !jpyInput) return;
+
+            // 抓取即時資料
+            try {
+                const response = await fetch('https://open.er-api.com/v6/latest/TWD');
+                const data = await response.json();
+                if (data && data.rates && data.rates.JPY) {
+                    currentRate = data.rates.JPY;
+                    rateDetail.innerText = `今日即時匯率：1 TWD = ${currentRate.toFixed(2)} JPY`;
+                }
+            } catch (error) {
+                rateDetail.innerText = `使用預設匯率：1 TWD = ${currentRate} JPY`;
+            }
+
+            // 監聽台幣輸入
+            twdInput.addEventListener('input', () => {
+                if (!twdInput.value) { jpyInput.value = ""; return; }
+                jpyInput.value = Math.floor(parseFloat(twdInput.value) * currentRate);
+            });
+
+            // 監聽日幣輸入
+            jpyInput.addEventListener('input', () => {
+                if (!jpyInput.value) { twdInput.value = ""; return; }
+                twdInput.value = (parseFloat(jpyInput.value) / currentRate).toFixed(2);
+            });
+        }
+        window.onload = initApp;
+let accRecords = JSON.parse(localStorage.getItem('acc_records')) || [];
+let accCats = JSON.parse(localStorage.getItem('acc_cats')) || ["服飾", "藥妝", "餐飲", "伴手禮"];
+let accClosedDates = new Set();
+
+function openAccModal() {
+    document.getElementById('accModal').style.display = 'flex';
+    document.getElementById('acc-date').value = new Date().toISOString().split('T')[0];
+    renderAccCatOptions();
+}
+
+function closeAccModal() { document.getElementById('accModal').style.display = 'none'; }
+
+function renderAccCatOptions() {
+    const s = document.getElementById('acc-cat-select');
+    s.innerHTML = accCats.map(c => `<option value="${c}">${c}</option>`).join('');
+}
+
+function addAccCategory() {
+    const val = document.getElementById('acc-new-cat').value.trim();
+    if (val && !accCats.includes(val)) {
+        accCats.push(val);
+        localStorage.setItem('acc_cats', JSON.stringify(accCats));
+        renderAccCatOptions();
+        document.getElementById('acc-cat-select').value = val;
+        document.getElementById('acc-new-cat').value = '';
+    }
+}
+
+function saveAccRecord() {
+    const record = {
+        id: Date.now(),
+        date: document.getElementById('acc-date').value,
+        cat: document.getElementById('acc-cat-select').value,
+        shop: document.getElementById('acc-shop').value || "未指定商店",
+        amount: parseFloat(document.getElementById('acc-amount-in').value) || 0,
+        pay: document.getElementById('acc-pay-method').value
+    };
+    if (record.amount <= 0) return alert("請輸入金額");
+    accRecords.push(record);
+    localStorage.setItem('acc_records', JSON.stringify(accRecords));
+    closeAccModal();
+    updateAccUI();
+}
+
+function deleteAccRecord(id) {
+    if(confirm('確定刪除嗎？')) {
+        accRecords = accRecords.filter(r => r.id !== id);
+        localStorage.setItem('acc_records', JSON.stringify(accRecords));
+        updateAccUI();
+    }
+}
+
+function updateAccUI() {
+    const totalJPY = accRecords.reduce((sum, r) => sum + r.amount, 0);
+    const totalTWD = Math.round(totalJPY * (typeof currentRate !== 'undefined' ? 1/currentRate : 0.21)); 
+    // 這裡用了你原本網頁的 currentRate 變數
+
+    if(document.getElementById('acc-total-jpy')) {
+        document.getElementById('acc-total-jpy').innerText = `¥ ${totalJPY.toLocaleString()}`;
+        document.getElementById('acc-total-twd').innerText = `約 NT$ ${totalTWD.toLocaleString()}`;
+        
+        // 分類統計
+        const catMap = {};
+        accRecords.forEach(r => catMap[r.cat] = (catMap[r.cat] || 0) + r.amount);
+        document.getElementById('acc-category-grid').innerHTML = Object.keys(catMap).map(k => `
+            <div class="cat-node"><span>${k}</span><span>¥${catMap[k].toLocaleString()}</span></div>
+        `).join('');
+
+        // 列表渲染 (含收納邏輯)
+        const list = document.getElementById('acc-list');
+        const grouped = accRecords.reduce((acc, r) => { (acc[r.date] = acc[r.date] || []).push(r); return acc; }, {});
+        const sortedDates = Object.keys(grouped).sort((a,b) => new Date(b) - new Date(a));
+
+        list.innerHTML = sortedDates.map(date => {
+            const isClosed = accClosedDates.has(date);
+            const daySum = grouped[date].reduce((s, r) => s + r.amount, 0);
+            return `
+                <div class="acc-date-group">
+                    <div class="acc-date-header" onclick="toggleAccDate('${date}')">
+                        <span>${date} (¥${daySum.toLocaleString()})</span>
+                        <span>${isClosed ? '◀' : '▼'}</span>
+                    </div>
+                    <div style="display: ${isClosed ? 'none' : 'block'}">
+                        ${grouped[date].map(r => `
+                            <div class="acc-item">
+                                <div class="acc-info">
+                                    <div class="shop">${r.shop}</div>
+                                    <div class="sub">${r.cat} · ${r.pay}</div>
+                                </div>
+                                <div class="acc-right">
+                                    <div class="acc-amount">¥${r.amount.toLocaleString()}</div>
+                                    <button class="acc-del" onclick="deleteAccRecord(${r.id})">×</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+}
+
+function toggleAccDate(date) {
+    accClosedDates.has(date) ? accClosedDates.delete(date) : accClosedDates.add(date);
+    updateAccUI();
+}
+function openBookingModal() {
+    document.getElementById('bookingModal').style.display = 'flex';
+}
+    </script>
+<!-- 記帳彈出視窗 -->
+<div id="accModal" class="acc-modal">
+    <div class="acc-modal-content">
+        <!-- 這是新增的左上角 X 按鈕 -->
+        <button class="acc-modal-close-left" onclick="closeAccModal()">✕</button>
+        <h3 style="text-align:center; margin-bottom:15px;">新增支出</h3>
+        <label>日期</label>
+        <input type="date" id="acc-date">
+        <label>支出項目</label>
+        <select id="acc-cat-select"></select>
+        <div class="cat-input-area">
+            <input type="text" id="acc-new-cat" placeholder="新增分類...">
+            <button class="plus-btn" onclick="addAccCategory()">+</button>
+        </div>
+        <label>店名</label>
+        <input type="text" id="acc-shop" placeholder="例如：Uniqlo">
+        <label>金額 (日圓)</label>
+        <input type="number" id="acc-amount-in" placeholder="¥">
+        <label>支付方式</label>
+        <select id="acc-pay-method">
+            <option value="現金">現金</option>
+            <option value="信用卡">信用卡</option>
+				<option value="IC卡">IC卡</option>
+        </select>
+        <button class="save-btn" style="width:100%; margin-top:20px;" onclick="saveAccRecord()">儲存</button>
+    </div>
+</div>
+<!-- 旅遊日語彈出視窗 (正式放在網頁主體) -->
+<div id="langModal" class="lang-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 20000; justify-content: center; align-items: center;" onclick="this.style.display='none'">
+    <div class="lang-modal-content" onclick="event.stopPropagation()">
+        <h3 style="text-align:center; margin-bottom:15px; color: var(--dark-brown);">旅遊實用日語</h3>
+        <div class="lang-item"onclick="showFull('すみません。', '不好意思 / 請問一下')"><span class="lang-jp">すみません。</span><span class="lang-zh">不好意思 / 請問一下</span></div>
+        <div class="lang-item"onclick="showFull('お会計お願いします。', '我要結帳。')"><span class="lang-jp">お会計お願いします。</span><span class="lang-zh">我要結帳。</span></div>
+        <div class="lang-item"onclick="showFull('これをください。', '我要這個。')"><span class="lang-jp">これをください。</span><span class="lang-zh">我要這個。</span></div>
+        <div class="lang-item"onclick="showFull('もっと 大きい/小さい サイズはありますか？', '請問有大/小一點的尺寸嗎？')"><span class="lang-jp">もっと 大きい/小さい サイズはありますか？</span><span class="lang-zh">請問有大/小一點的尺寸嗎？</span></div>
+        <div class="lang-item"onclick="showFull('予約しています。', '我有預約。')"><span class="lang-jp">予約しています。</span><span class="lang-zh">我有預約。</span></div>
+        <div class="lang-item"onclick="showFull('いくらですか？', '請問多少錢？')"><span class="lang-jp">いくらですか？</span><span class="lang-zh">請問多少錢？</span></div>        
+			<div class="lang-item"onclick="showFull('これはどこですか？', '請問這個在哪裡？')"><span class="lang-jp">これはどこですか？</span><span class="lang-zh">請問這個在哪裡？</span></div>
+        <div class="lang-item"onclick="showFull('カードは使えますか？', '請問可以使用信用卡嗎？')"><span class="lang-jp">カードは使えますか？</span><span class="lang-zh">請問可以使用信用卡嗎？</span></div>
+        <div class="lang-item"onclick="showFull('免税お願いします。', '我要免稅。')"><span class="lang-jp">免税お願いします。</span><span class="lang-zh">我要免稅。</span></div>
+	     <div class="lang-item"onclick="showFull('助けてください！', '請幫幫我！')"><span class="lang-jp">助けてください！</span><span class="lang-zh">請幫幫我！</span></div>
+        <button onclick="document.getElementById('langModal').style.display='none'" 
+                style="width: 100%; margin-top: 20px; padding: 12px; border-radius: 10px; border:none; background:#eee; font-weight:700;">關閉</button>
+    </div>
+</div>
+<!-- 滿版顯示的容器 -->
+<div id="fullScreenModal" class="full-screen-modal">
+    <span class="close-btn" onclick="hideFull()">&times;</span>
+    <div id="fullJp" class="full-screen-text"></div>
+    <div id="fullZh" class="full-screen-zh"></div>
+</div>
+
+<script>
+function showFull(jp, zh) {
+    document.getElementById('fullJp').innerText = jp;
+    document.getElementById('fullZh').innerText = zh;
+    document.getElementById('fullScreenModal').style.display = 'flex';
+}
+
+function hideFull() {
+    document.getElementById('fullScreenModal').style.display = 'none';
+}
+</script>
+<div id="bookingModal" class="acc-modal">
+    <div class="acc-modal-content" style="max-height: 80vh; overflow-y: auto;">
+        <button class="acc-modal-close-left" onclick="document.getElementById('bookingModal').style.display='none'">✕</button>
+        <h3 style="text-align:center; margin-bottom:20px;">資訊</h3>
+        
+        <!-- 這裡可以持續新增你的資訊卡片 -->
+        <div class="booking-card">
+            <h4>【住宿】N.33 Hakata Sta. East</h4>
+            <p>地址：〒812-0013 福岡県福岡市博多區博多駅東１丁目14−30</p>
+            <p>電話：050-1720-7129</p>
+            <p>信箱：n.33_east@nextstay.co.jp</p>
+        </div>
+
+        <div class="booking-card">
+            <h4>【遊覽車】糸島一日遊</h4>
+            <p>預付金額：18685元（1557元/人）</p>
+			</div>
+ 			<div class="booking-card">
+				 <h4>【遊覽車】門司港一日遊</h4>
+            <p>預付金額：18522元（1544元/人）</p>
+         </div>
+			<div class="booking-card">
+				 <h4>【餐廳】One Karubi PREMIUM 中洲</h4>
+            <p>預訂時間：10/21 19:30</p>
+				<p>預付金額：1056元（88元/人）</p>
+         </div>
+			<div class="booking-card">
+				 <h4>【明太子麵包】The Full Full Hakata</h4>
+            <p>預約時間：10/23 11:00 </p>
+         </div>
+        <p style="font-size:0.75rem; color:#888; text-align:center;">（您可以在這裡持續新增資訊）</p>
+    </div>
+</div>
+</body>
+</html>
